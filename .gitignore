@@ -1,0 +1,6 @@
+*.test
+*.out
+/vendor/
+/Godeps/
+config.yaml
+xhealth
