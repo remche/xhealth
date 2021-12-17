@@ -1,5 +1,0 @@
-rpc: "https://arb1.arbitrum.io/rpc"
-lp: "0x8D35b8f4Ee0437EEe49CeA0Dc82F9ba82d52e578"
-market: "0x56F9261EcA26d055A2ca5aa5a6D25A8648C96801"
-treshold: 1.4
-telegram_bot: "put_your_telegram_bot_key_here"
