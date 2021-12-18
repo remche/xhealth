@@ -1,4 +1,4 @@
-# xLend healt factor monitor
+# xLend health factor monitor
 
 A small app that allow to monitor your [xToken Lending](https://docs.xtoken.market/products-and-services/xtoken-lending-coming-soon) health factor.
 
