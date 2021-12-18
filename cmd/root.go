@@ -15,14 +15,6 @@ import (
 
 var cfgFile string
 
-// var address string
-// var rpc string
-// var lpContract string
-// var marketContract string
-// var treshold float64
-// var telegramBotKey string
-// var telegramId int
-
 var config *lib.Config
 
 // rootCmd represents the base command when called without any subcommands
