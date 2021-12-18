@@ -20,9 +20,9 @@ var config *lib.Config
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "xhealth",
-	Short: "Check XLend health factor",
+	Short: "Check xLend health factor",
 	Long: `xhealth is a CLI application that will let you check and monitor for 
-your XLend health factor, optionnaly warning you if a treshold if crossed.`,
+your xLend health factor, optionnaly warning you if a treshold if crossed.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if cmd.Annotations["check_args"] == "yes" {
 			config.Address = viper.GetString("address")

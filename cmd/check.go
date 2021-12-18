@@ -12,7 +12,7 @@ import (
 var checkCmd = &cobra.Command{
 	Use:   "check",
 	Short: "One time check",
-	Long:  `Runs a one-time check of the XLend health factor`,
+	Long:  `Runs a one-time check of the xLend health factor`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		rootCmd.PersistentPreRun(cmd, args)
 		if (config.TelegramId != 0) != (config.TelegramBotKey != "") {

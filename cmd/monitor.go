@@ -18,8 +18,8 @@ var warnDelay int64
 
 var monitorCmd = &cobra.Command{
 	Use:         "monitor",
-	Short:       "Check every 5 minutes",
-	Long:        `Monitor XLend health factor`,
+	Short:       "Periodical check",
+	Long:        `Monitor xLend health factor`,
 	Annotations: map[string]string{"check_args": "yes"},
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		rootCmd.PersistentPreRun(cmd, args)
