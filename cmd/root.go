@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/remche/xhealth/lib"
@@ -27,33 +28,27 @@ var config *lib.Config
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "xhealth",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Check XLend health factor",
+	Long: `xhealth is a CLI application that will let you check and monitor for 
+your XLend health factor, optionnaly warning you if a treshold if crossed.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		config.Address = viper.GetString("address")
-		config.Rpc = viper.GetString("rpc")
-		config.LpContract = viper.GetString("lp")
-		config.MarketContract = viper.GetString("market")
-		config.Treshold = viper.GetFloat64("treshold")
-		config.TelegramBotKey = viper.GetString("telegram-bot-key")
-		config.TelegramId = viper.GetInt64("telegram-id")
-		if !common.IsHexAddress(config.Address) {
-			log.Fatal("Please provide a valid Ethereum address")
-		}
-		if !common.IsHexAddress(config.LpContract) {
-			log.Fatal("Please provide a valid Ethereum address for liquidity provider contract")
-		}
-		if !common.IsHexAddress(config.MarketContract) {
-			log.Fatal("Please provide a valid Ethereum address for market contract")
-		}
-		// xor
-		if (config.TelegramId != 0) != (config.TelegramBotKey != "") {
-			log.Fatal("Please provide bot telegram-id and telegram-bot-key if you want to enable Telegram notifications")
+		if cmd.Annotations["check_args"] == "yes" {
+			config.Address = viper.GetString("address")
+			config.Rpc = viper.GetString("rpc")
+			config.LpContract = viper.GetString("lp")
+			config.MarketContract = viper.GetString("market")
+			config.Treshold = viper.GetFloat64("treshold")
+			config.TelegramBotKey = viper.GetString("telegram-bot-key")
+			config.TelegramId = viper.GetInt64("telegram-id")
+			if !common.IsHexAddress(config.Address) {
+				log.Fatal("Please provide a valid Ethereum address")
+			}
+			if !common.IsHexAddress(config.LpContract) {
+				log.Fatal("Please provide a valid Ethereum address for liquidity provider contract")
+			}
+			if !common.IsHexAddress(config.MarketContract) {
+				log.Fatal("Please provide a valid Ethereum address for market contract")
+			}
 		}
 	},
 	// Uncomment the following line if your bare application
@@ -112,7 +107,9 @@ func initConfig() {
 		viper.SetConfigName(".xhealth")
 	}
 
-	viper.SetEnvPrefix("X")
+	viper.SetEnvPrefix("XHEALTH")
+	replacer := strings.NewReplacer("-", "_")
+	viper.SetEnvKeyReplacer(replacer)
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.

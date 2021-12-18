@@ -2,22 +2,23 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"math/big"
 
 	"github.com/remche/xhealth/lib"
 	"github.com/spf13/cobra"
 )
 
-// checkCmd represents the check command
 var checkCmd = &cobra.Command{
 	Use:   "check",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "One time check",
+	Long:  `Runs a one-time check of the XLend health factor`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		rootCmd.PersistentPreRun(cmd, args)
+		if (config.TelegramId != 0) != (config.TelegramBotKey != "") {
+			log.Fatal("Please provide both telegram-id and telegram-bot-key if you want to enable Telegram notifications")
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		health := lib.Query(config)
 		fmt.Println(health)
