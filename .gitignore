@@ -4,3 +4,5 @@
 /Godeps/
 config.yaml
 xhealth
+
+dist/
