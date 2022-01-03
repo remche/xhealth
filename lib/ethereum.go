@@ -19,16 +19,24 @@ func Query(config *Config) *big.Float {
 	}
 
 	address := common.HexToAddress(config.Address)
+
 	lpContractAddress := common.HexToAddress(config.LpContract)
-	marketContractAddress := common.HexToAddress(config.MarketContract)
 	lpContract, err := contracts.NewLp(lpContractAddress, client)
-	marketContract, err := contracts.NewMarket(marketContractAddress, client)
-
 	debt, err := lpContract.UpdatedBorrowBy(nil, address)
-	limit, err := marketContract.BorrowingLimit(nil, address)
-
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	limit := big.NewInt(0)
+	for _, m := range config.MarketContracts {
+		marketContractAddress := common.HexToAddress(m)
+		marketContract, err := contracts.NewMarket(marketContractAddress, client)
+		l, err := marketContract.BorrowingLimit(nil, address)
+		limit.Add(limit, l)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 	}
 
 	zero := big.NewInt(0)

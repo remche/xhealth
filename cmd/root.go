@@ -28,7 +28,7 @@ your xLend health factor, optionnaly warning you if a treshold if crossed.`,
 			config.Address = viper.GetString("address")
 			config.Rpc = viper.GetString("rpc")
 			config.LpContract = viper.GetString("lp")
-			config.MarketContract = viper.GetString("market")
+			config.MarketContracts = viper.GetStringSlice("market")
 			config.Treshold = viper.GetFloat64("treshold")
 			config.TelegramBotKey = viper.GetString("telegram-bot-key")
 			config.TelegramId = viper.GetInt64("telegram-id")
@@ -38,8 +38,10 @@ your xLend health factor, optionnaly warning you if a treshold if crossed.`,
 			if !common.IsHexAddress(config.LpContract) {
 				log.Fatal("Please provide a valid Ethereum address for liquidity provider contract")
 			}
-			if !common.IsHexAddress(config.MarketContract) {
-				log.Fatal("Please provide a valid Ethereum address for market contract")
+			for _, m := range config.MarketContracts {
+				if !common.IsHexAddress(m) {
+					log.Fatal("Please provide a valid Ethereum address for market contracts")
+				}
 			}
 		}
 	},
@@ -69,7 +71,11 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&config.LpContract, "lp", "0x8D35b8f4Ee0437EEe49CeA0Dc82F9ba82d52e578", "liquidity provider contract address")
 	viper.BindPFlag("lp", rootCmd.PersistentFlags().Lookup("lp"))
 
-	rootCmd.PersistentFlags().StringVar(&config.MarketContract, "market", "0x56F9261EcA26d055A2ca5aa5a6D25A8648C96801", "market contract address")
+	market := []string{"0x56F9261EcA26d055A2ca5aa5a6D25A8648C96801", // ETH
+		"0x769c382124Bd87c78D4316e3dDB77E925c008487", // BTC
+		"0xEA32195F8BFb435292aC38659fBB571E6963cFda"} //LINK
+
+	rootCmd.PersistentFlags().StringSliceVar(&config.MarketContracts, "market", market, "market contracts addresses")
 	viper.BindPFlag("market", rootCmd.PersistentFlags().Lookup("market"))
 
 	rootCmd.PersistentFlags().Float64VarP(&config.Treshold, "treshold", "t", 1.11, "warning treshold")
