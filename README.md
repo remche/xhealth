@@ -60,3 +60,7 @@ export XHEALTH_TELEGRAM_ID 123123
 ## How to get you Telegram Bot API Key 
 
 Just send `/newbot` command to [@BotFather](https://t.me/botfather)
+
+## Bot usage
+
+You can query the bot with `/healthz` command.
