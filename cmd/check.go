@@ -24,7 +24,7 @@ var checkCmd = &cobra.Command{
 		health := lib.Query(config)
 		fmt.Println(health)
 		if config.TelegramId != 0 && health.Cmp(big.NewFloat(float64(config.Treshold))) == -1 {
-			lib.Warn(config.TelegramBotKey, config.TelegramId, health.String())
+			lib.Warn(lib.CreateBot(config.TelegramBotKey), config.TelegramId, health.String())
 		}
 	},
 }

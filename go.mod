@@ -11,6 +11,7 @@ require (
 	github.com/nikoksr/notify v0.17.4
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.10.0
+	gopkg.in/telebot.v3 v3.0.0-20220122163204-f2a7d458a0fc
 )
 
 require (
@@ -41,7 +42,7 @@ require (
 	github.com/tklauser/numcpus v0.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20211213223007-03aa0b5f6827 // indirect
+	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect

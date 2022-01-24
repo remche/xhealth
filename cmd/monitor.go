@@ -30,6 +30,8 @@ var monitorCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		lastWarnTime := time.Date(1982, 1, 15, 0, 0, 0, 0, time.UTC)
+		b := lib.CreateBot(config.TelegramBotKey)
+		go lib.StartBot(b, config)
 		sigchan := make(chan os.Signal, 1)
 		signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
 
@@ -37,6 +39,7 @@ var monitorCmd = &cobra.Command{
 		for {
 			select {
 			case <-sigchan:
+				b.Stop()
 				fmt.Println("exiting")
 				break F
 			case <-time.After(10 * time.Second):
@@ -44,7 +47,7 @@ var monitorCmd = &cobra.Command{
 					if time.Now().Sub(lastWarnTime).Seconds() >= float64(warnDelay) {
 						health := lib.Query(config)
 						if health.Cmp(big.NewFloat(float64(config.Treshold))) == -1 {
-							lib.Warn(config.TelegramBotKey, config.TelegramId, health.String())
+							lib.Warn(b, config.TelegramId, health.String())
 							lastWarnTime = time.Now()
 						}
 					}
